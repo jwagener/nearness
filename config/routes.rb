@@ -1,4 +1,5 @@
 Nearness::Application.routes.draw do
+  root :to => "frontend#index"
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
