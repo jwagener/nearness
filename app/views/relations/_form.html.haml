@@ -1,0 +1,22 @@
+= form_for @relation do |f|
+  -if @relation.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@relation.errors.count, "error")} prohibited this relation from being saved:"
+      %ul
+        - @relation.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :object_url
+    = f.text_field :object_url
+  .field
+    = f.label :subject_url
+    = f.text_field :subject_url
+  .field
+    = f.label :predicate
+    = f.text_field :predicate
+  .field
+    = f.label :creator_url
+    = f.text_field :creator_url
+  .actions
+    = f.submit 'Save'

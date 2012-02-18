@@ -1,4 +1,8 @@
 Nearness::Application.routes.draw do
+  resources :relations
+
+  resources :things
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

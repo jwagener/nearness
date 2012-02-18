@@ -1,0 +1,27 @@
+%h1 Listing things
+
+%table
+  %tr
+    %th Url
+    %th Name
+    %th Image url
+    %th Preview html
+    %th Uri
+    %th
+    %th
+    %th
+
+  - @things.each do |thing|
+    %tr
+      %td= thing.url
+      %td= thing.name
+      %td= thing.image_url
+      %td= thing.preview_html
+      %td= thing.uri
+      %td= link_to 'Show', thing
+      %td= link_to 'Edit', edit_thing_path(thing)
+      %td= link_to 'Destroy', thing, :confirm => 'Are you sure?', :method => :delete
+
+%br
+
+= link_to 'New Thing', new_thing_path

@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  object_url: MyString
+  subject_url: MyString
+  predicate: MyString
+  creator_url: MyString
+
+two:
+  object_url: MyString
+  subject_url: MyString
+  predicate: MyString
+  creator_url: MyString
