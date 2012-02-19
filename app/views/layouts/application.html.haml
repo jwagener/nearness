@@ -3,10 +3,11 @@
   %head
     %title 
       Nearness
-    = stylesheet_link_tag    "/stylesheets/style.css", :media => "all"
-    = javascript_include_tag "jquery.min", "mustache", "application"
+    - # = stylesheet_link_tag    "/stylesheets/style.css", :media => "all"
+    = javascript_include_tag "application"
     - # = javascript_include_tag "https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"
     = csrf_meta_tag
+    = render :partial => "frontend/templates"
   %body{:class => [params[:action], params[:controller]]}
     = yield
 
