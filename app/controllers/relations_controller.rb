@@ -4,7 +4,7 @@ class RelationsController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @relations }
+      format.json { render json: Collection.new("relations", @relations) }
     end
   end
 

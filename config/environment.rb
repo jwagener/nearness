@@ -5,3 +5,4 @@ require File.expand_path('../application', __FILE__)
 Nearness::Application.initialize!
 
 require './lib/thingify'
+require './lib/collection'

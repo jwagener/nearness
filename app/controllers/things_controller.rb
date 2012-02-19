@@ -4,7 +4,7 @@ class ThingsController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @things }
+      format.json { render json: Collection.new("things", @things) }
     end
   end
 
