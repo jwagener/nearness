@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+# Rails
 gem 'rails', '3.2.1'
 gem 'sqlite3'
 
@@ -13,3 +14,7 @@ end
 
 gem 'haml-rails'
 gem 'jquery-rails'
+
+# Nearness
+
+gem 'httparty'

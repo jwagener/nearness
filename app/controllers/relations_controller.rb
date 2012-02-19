@@ -1,6 +1,4 @@
 class RelationsController < ApplicationController
-  # GET /relations
-  # GET /relations.json
   def index
     @relations = Relation.all
 
@@ -10,8 +8,6 @@ class RelationsController < ApplicationController
     end
   end
 
-  # GET /relations/1
-  # GET /relations/1.json
   def show
     @relation = Relation.find(params[:id])
 
@@ -21,8 +17,6 @@ class RelationsController < ApplicationController
     end
   end
 
-  # GET /relations/new
-  # GET /relations/new.json
   def new
     @relation = Relation.new
 
@@ -32,13 +26,10 @@ class RelationsController < ApplicationController
     end
   end
 
-  # GET /relations/1/edit
   def edit
     @relation = Relation.find(params[:id])
   end
 
-  # POST /relations
-  # POST /relations.json
   def create
     @relation = Relation.new(params[:relation])
 
@@ -53,8 +44,6 @@ class RelationsController < ApplicationController
     end
   end
 
-  # PUT /relations/1
-  # PUT /relations/1.json
   def update
     @relation = Relation.find(params[:id])
 
@@ -69,8 +58,6 @@ class RelationsController < ApplicationController
     end
   end
 
-  # DELETE /relations/1
-  # DELETE /relations/1.json
   def destroy
     @relation = Relation.find(params[:id])
     @relation.destroy

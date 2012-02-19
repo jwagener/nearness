@@ -1,6 +1,4 @@
 class ThingsController < ApplicationController
-  # GET /things
-  # GET /things.json
   def index
     @things = Thing.all
 
@@ -10,8 +8,6 @@ class ThingsController < ApplicationController
     end
   end
 
-  # GET /things/1
-  # GET /things/1.json
   def show
     @thing = Thing.find(params[:id])
 
@@ -21,8 +17,6 @@ class ThingsController < ApplicationController
     end
   end
 
-  # GET /things/new
-  # GET /things/new.json
   def new
     @thing = Thing.new
 
@@ -32,13 +26,10 @@ class ThingsController < ApplicationController
     end
   end
 
-  # GET /things/1/edit
   def edit
     @thing = Thing.find(params[:id])
   end
 
-  # POST /things
-  # POST /things.json
   def create
     @thing = Thing.new(params[:thing])
 
@@ -53,8 +44,6 @@ class ThingsController < ApplicationController
     end
   end
 
-  # PUT /things/1
-  # PUT /things/1.json
   def update
     @thing = Thing.find(params[:id])
 
@@ -69,8 +58,6 @@ class ThingsController < ApplicationController
     end
   end
 
-  # DELETE /things/1
-  # DELETE /things/1.json
   def destroy
     @thing = Thing.find(params[:id])
     @thing.destroy
