@@ -3,10 +3,12 @@
   <img src="{{image_url}}" />
   <div class="preview">{{preview_html}}</div>
   <div class="relations"></div>
+  
+  Source:
+  = link_to "{{url}}", "{{url}}"
 
 %script#relationTemplate{:type => "mustache"}
-  {{subject_url}} -| {{predicate}} -| {{object_url}}
-
-%script#miniThingTemplate{:type => "mustache"}
-  <h2>{{name}}</h2>
+  %a{:href => "{{REPLACE_SUB_OBJ.url}}", :class => "relation", :style => "background-image: url({{REPLACE_SUB_OBJ.image_url}})"}
+    %span
+      {{REPLACE_SUB_OBJ.name}}
 
