@@ -13,8 +13,8 @@ module Thingify
     embedly = Embedly.get(url)
 
     TRANSLATE.inject({}) do |memo, (key, value)|
-      m[key] = embedly[value]
-      m
+      memo[key] = embedly[value]
+      memo
     end
   end
 end

@@ -1,0 +1,21 @@
+%p#notice= notice
+
+%p
+  %b Url:
+  = @thing.url
+%p
+  %b Name:
+  = @thing.name
+%p
+  %b Image url:
+  = @thing.image_url
+%p
+  %b Preview html:
+  = @thing.preview_html
+%p
+  %b Uri:
+  = @thing.uri
+
+= link_to 'Edit', edit_thing_path(@thing)
+\|
+= link_to 'Back', things_path

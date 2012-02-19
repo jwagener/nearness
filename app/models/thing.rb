@@ -2,6 +2,12 @@ class Thing < ActiveRecord::Base
   before_create :thingify
   before_create :urify
 
+
+  def relations
+    Relation.find_all_by_subject_url(url) +
+    Relation.find_all_by_object_url(url)
+  end
+
   def thingify
     self.attributes = Thingify.get(url)
   end
