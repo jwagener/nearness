@@ -11,7 +11,7 @@ class ThingsProfileController < ApplicationController
   end
 
   def show
-    @thing = load_thing
+    @thing = load_thing!
 
     respond_to do |format|
       format.html
@@ -20,10 +20,7 @@ class ThingsProfileController < ApplicationController
   end
 
   def relations
-    @relations = load_thing.relations
-    if params[:predicate].present?
-      @relations.select! { |r| r.predicate == params[:predicate] }
-    end
+    @relations = load_thing!.relations(params[:predicate])
 
     respond_to do |format|
       format.html
@@ -32,8 +29,8 @@ class ThingsProfileController < ApplicationController
   end
 
   private
-  def load_thing
-    Thing.find_by_url(thing_url)
+  def load_thing!
+    Thing.find_by_url!(thing_url)
   end
 
   def thing_url

@@ -3,9 +3,9 @@ class Thing < ActiveRecord::Base
   before_create :urify
 
 
-  def relations
-    Relation.find_all_by_subject_url(url) +
-    Relation.find_all_by_object_url(url)
+  def relations(predicate = nil)
+    Relation.with_predicate(predicate).find_all_by_subject_url(url) +
+    Relation.with_predicate(predicate).find_all_by_object_url(url)
   end
 
   def thingify

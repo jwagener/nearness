@@ -16,6 +16,6 @@
   %b Uri:
   = @thing.uri
 
-= link_to 'Edit', edit_thing_path(@thing)
+= link_to 'This', thing_profile_path(nil, @thing, nil)
 \|
-= link_to 'Back', things_path
+= link_to 'Relations', thing_profile_relations_path(nil, @thing)

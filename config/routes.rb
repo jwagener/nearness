@@ -4,6 +4,6 @@ Nearness::Application.routes.draw do
   resources :relations
   resources :things
 
-  match "rels(;:predicate)(.:our_format)/*url" => "things_profile#relations"
-  match "(.:our_format/)*url"                  => "things_profile#show"
+  match "rels(;:predicate)(.:our_format)/*url" => "things_profile#relations", :as => :thing_profile_relations
+  match "(.:our_format/)*url"                  => "things_profile#show",      :as => :thing_profile
 end

@@ -1,4 +1,8 @@
 class Relation < ActiveRecord::Base
+  scope :with_predicate, ->(predicate) do
+    where("predicate = ?", predicate) if predicate.present?
+  end
+
   def subject
     Thing.find_by_url(subject_url)
   end
