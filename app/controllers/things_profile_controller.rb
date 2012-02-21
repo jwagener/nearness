@@ -5,16 +5,15 @@ class ThingsProfileController < ApplicationController
     @things = Thing.all
 
     respond_to do |format|
-      format.html
+      format.html { render template: "frontend/index" }
       format.json { render json: Collection.new("things", @things) }
     end
   end
 
   def show
     @thing = load_thing!
-
     respond_to do |format|
-      format.html
+      format.html { render template: "frontend/index" }
       format.json { render json: @thing }
     end
   end
@@ -39,7 +38,7 @@ class ThingsProfileController < ApplicationController
 
   def set_format
     request.format = params[:our_format] ||
-      if request.env['HTTP_ACCEPT'] =~ /\/json$/
+      if request.env['HTTP_ACCEPT'] =~ /\/json/
         'json'
       else
         'html'

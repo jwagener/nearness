@@ -1,4 +1,19 @@
-window.NN ||= {}
+window.NN ||= {
+  get: (path, callback) -> 
+    $.ajax
+      url: path
+      dataType: "json"
+      success: (data) ->
+        callback(data)
+
+  getThing: (url, callback) ->
+    this.get "/" + url, callback
+  
+  getThingRels: (url, callback) ->
+    this.get "/rels/" + url, callback
+}
+  
+
 NN.Thing = Backbone.Model.extend
   defaults: ->
     {
@@ -62,7 +77,23 @@ NN.AppView = Backbone.View.extend
 
 $ ->
   window.App = new NN.AppView
+  
+  currentThingUrl = "http://en.wikipedia.org/wiki/Frida_Kahlo"
+  NN.getThing currentThingUrl, (response) ->
+    console.log(response)
+    thing = new NN.Thing response.thing
+    thingView = new NN.ThingView({model: thing})
+    $("#thing").append(thingView.render().el)
+    $("body").css("backgroundImage", "url(" + thing.get("image_url") + ")");
 
+  NN.getThingRels currentThingUrl, (response) ->
+    console.log(response)
+
+
+  
+  #testStuff()
+
+testStuff = ->
   frida = new NN.Thing
     url: "http://en.wikipedia.org/wiki/Frida_Kahlo"
     name: "Frida Kahlo"
