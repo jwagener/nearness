@@ -29,3 +29,16 @@ hr {display: none; visibility: hidden;}
 .reference {
   display: none;
 }
+
+.clear {
+  clear: both;
+}
+
+.hidden {
+  display: none;
+}
+
+li.miniThing {
+  float: left;
+  display: inline;
+}

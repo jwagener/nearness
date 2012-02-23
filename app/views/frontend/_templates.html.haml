@@ -9,6 +9,22 @@
 
 %script#relationTemplate{:type => "mustache"}
   %a{:href => "{{REPLACE_SUB_OBJ.url}}", :class => "relation", :style => "background-image: url({{REPLACE_SUB_OBJ.image_url}})"}
-    %span
-      {{REPLACE_SUB_OBJ.name}}
+    %span {{REPLACE_SUB_OBJ.name}}
 
+%script#miniThingTemplate{:type => "mustache"}
+  %li.miniThing
+    %a{:href => "{{url}}", :class => "relation", :style => "background-image: url({{image_url}})"}
+      %span {{name}}
+
+%script#bookmarkletTemplate{:type => "mustache"}
+  .bookmarklet{style: "position: fixed; top: 10px; right: 10px; border: 1px solid red; width: 550px; height: 457px; padding: 10px; background-color: white"}
+    %h1 "Bible" relates to:
+    %input{type: "text", style: "width: 100%; font-size: 21px; border: 1px solid blue; background: white; margin: 5px 0 10px;", value: "Search for a thing or paste a link..."}
+    Your Recent Things:
+    %ul.results
+    .clear{style: "clear: both"}
+    .hidden
+      Already related Things:
+      %ul.results
+    .clear{style: "clear: both"}
+    %span Click on one to create a relation.

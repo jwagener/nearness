@@ -42,6 +42,12 @@ NN.AppView = Backbone.View.extend
 
   showBookmarklet: (e) ->
     e.preventDefault()
+    if !this.bookmarkletView
+      this.bookmarkletView = new NN.BookmarkletView
+      this.$el.append(this.bookmarkletView.render().el)
+
+    this.bookmarkletView.$el.show();
+
     console.log("yeah")
 
 
