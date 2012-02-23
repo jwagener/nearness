@@ -18,3 +18,5 @@ gem 'jquery-rails'
 # Nearness
 
 gem 'httparty'
+
+gem 'nokogiri'
