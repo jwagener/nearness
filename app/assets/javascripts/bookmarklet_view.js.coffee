@@ -5,18 +5,18 @@ NN.BookmarkletView = Backbone.View.extend
     html = Mustache.to_html(templateHtml, {})
     this.$el.html(html)
     console.log(this.$el.find(".results"))
-    this.addResult(testThings[0])
-    this.addResult(testThings[1])
+
+    recentThings.each (thing) =>
+      this.addResult(thing)
+
 
   clearResults: ->
     this.$el.find(".results").html()
 
-  addResult: (relation) ->
-    console.log(relation)
+  addResult: (thing) ->
     #relationView = new NN.RelationView model: relation
-
     templateHtml = $("#miniThingTemplate").html()
-    html = Mustache.to_html(templateHtml, relation.toJSON())
+    html = Mustache.to_html(templateHtml, thing.toJSON())
     this.$el.find(".results").append(html)
 
 

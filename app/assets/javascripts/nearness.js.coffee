@@ -30,19 +30,30 @@ NN.AppView = Backbone.View.extend
     currentThingUrl = window.location.pathname
     NN.getThing currentThingUrl, (response) ->
       if response.things
-        templateHtml = $("#miniThingTemplate").html()
         for thing in response.things
-          html = Mustache.to_html(templateHtml, thing)
-          $(".things").append(html)
+          thingView = new NN.MiniThingView({model: new NN.Thing(thing)})
+          $(".things").append(thingView.render().el)
       else
         thing = new NN.Thing response.thing
+        recentThings.addRecent(thing)
         thingView = new NN.ThingView({model: thing})
         $("#thing").append(thingView.render().el)
         $("body").css("backgroundImage", "url(" + thing.get("image_url") + ")");
-
+        document.title = thing.get("name") + " - Nearness"
         NN.getThingRels currentThingUrl, (response) ->
           console.log(response)
+  getRecentThings: () ->
+    recentThingAttributes = (window.localStorage && window.localStorage.getItem("recentThings")) || []
+    recentThings = []
+    for attrs in recentThingAttributes
+      recentThings.push new NN.Thing(attrs)
+    recentThings
 
+  addToRecentThings: (thing) ->
+    recentThings = getRecentThings()
+    recentThings.push(thing)
+    recentThings # limit to 5
+    recentThings # serialize and store
   showBookmarklet: (e) ->
     e.preventDefault()
     if !this.bookmarkletView
@@ -50,7 +61,28 @@ NN.AppView = Backbone.View.extend
       this.$el.append(this.bookmarkletView.render().el)
     this.bookmarkletView.$el.show();
 
-
+$ ->
+  NN.RecentThingList = Backbone.Collection.extend
+    models: []
+    model: NN.Thing
+    initialize: ->
+      this.loadFromLocalStorage()
+    loadFromLocalStorage: ->
+      rawThings = JSON.parse(localStorage.getItem("recentThings") || "[]")
+      this.reset()
+      for rawThing in rawThings
+        this.add new NN.Thing(rawThing)
+    saveToLocalStorage: ->
+      localStorage.setItem("recentThings", JSON.stringify(this.toJSON()))
+    limitTo: (i) ->
+      if this.length > i
+        this.reset(this.last(i))
+    addRecent: (thing) ->
+      this.add(thing)
+      # enforce uniqnuess
+      this.limitTo(5)
+      this.saveToLocalStorage()
+  window.recentThings = new NN.RecentThingList()
 
 Backbone.sync = (method, model) ->
   NN.post "/rels", {relation: model.toJSON()}, (savedModel) ->
@@ -60,37 +92,15 @@ $ ->
   NN.AppView.prototype.el = $("#page")
   window.App = new NN.AppView
 
-testStuff = ->
-  frida = new NN.Thing
+  window.testThings = []
+  testThings.push new NN.Thing
     url: "http://en.wikipedia.org/wiki/Frida_Kahlo"
     name: "Frida Kahlo"
     image_url: "http://www.hovied.com/wp-content/uploads/2010/07/frida-kahlo-biography.jpg"
     preview_html: "Frida Kahlo is a kick ass girl"
 
-  dia = new NN.Thing
+  testThings.push new NN.Thing
     url: "http://en.wikipedia.org/wiki/Day_of_the_Dead"
     name: "Dia de los Muertos"
-    #image_url: "http://upload.wikimedia.org/wikipedia/commons/7/7c/Catrinas_2.jpg"
     image_url: "http://upload.wikimedia.org/wikipedia/en/7/76/Grim_Fandango_artwork.jpg"
     preview_html: "Dia de los Muertos is scary shit"
-
-  relation = new NN.Relation
-      subject_url: "http://en.wikipedia.org/wiki/Frida_Kahlo"
-      object_url:  "http://en.wikipedia.org/wiki/Day_of_the_Dead"
-      predicate:   ""
-      subject: frida.toJSON()
-      object: dia.toJSON()
-  
-  frida.set("relations", [relation])
-  fridaView = new NN.ThingView({model: frida})
-  $("#thing").append(fridaView.render().el)
-  
-  $("body").css("backgroundImage", "url(" + frida.get("image_url") + ")");
-  
-  relationView = new NN.RelationView model: relation
-  $("#relations").append(relationView.render("object").el)
-
-  relationView1 = new NN.RelationView model: relation
-  $("#relations").append(relationView1.render("subject").el)
-  
-
