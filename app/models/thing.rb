@@ -23,4 +23,14 @@ class Thing < ActiveRecord::Base
   def as_json(options = nil)
     { "thing" => representation }.as_json(options)
   end
+
+  def self.find_or_create_by_url!(url)
+    thing = find_by_url(url)
+    if thing.nil?
+      thing = Thing.new(url: url)
+      thing.thingify
+      thing.save
+    end
+    thing
+  end
 end

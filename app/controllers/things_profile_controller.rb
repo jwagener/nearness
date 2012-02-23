@@ -4,17 +4,19 @@ class ThingsProfileController < ApplicationController
   def index
     @things = Thing.all
 
-    respond_to do |format|
-      format.html { render template: "frontend/index" }
-      format.json { render json: Collection.new("things", @things) }
-    end
+     respond_to do |format|
+       format.html { render template: "frontend/index" }
+       format.json { render json: Collection.new("things", @things) }
+     end
   end
 
   def show
-    @thing = load_thing!
     respond_to do |format|
       format.html { render template: "frontend/index" }
-      format.json { render json: @thing }
+      format.json do
+        @thing = load_or_create_thing!
+        render json: @thing
+      end
     end
   end
 
@@ -27,9 +29,19 @@ class ThingsProfileController < ApplicationController
     end
   end
 
+  def create_relation
+    #relationAttributes = params.slice(:subject_url, :predicate, :object_url)
+    relation = Relation.create!(params[:relation])
+    render json: relation.as_json
+  end
+
   private
   def load_thing!
     Thing.find_by_url!(thing_url)
+  end
+
+  def load_or_create_thing!
+    @thing = Thing.find_or_create_by_url(thing_url)
   end
 
   def thing_url

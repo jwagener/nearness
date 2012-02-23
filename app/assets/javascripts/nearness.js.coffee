@@ -6,9 +6,18 @@ window.NN ||= {
       success: (data) ->
         callback(data)
 
+  post: (path, data, callback) ->
+    $.ajax
+      url: path
+      dataType: "json"
+      type: "POST"
+      data: data
+      success: (data) ->
+        callback(data)
+
   getThing: (url, callback) ->
     this.get url, callback
-  
+
   getThingRels: (url, callback) ->
     this.get "/rels" + url, callback
 }
@@ -29,6 +38,11 @@ NN.AppView = Backbone.View.extend
       NN.getThingRels currentThingUrl, (response) ->
         console.log(response)
     console.log("App booted")
+
+
+Backbone.sync = (method, model) ->
+  NN.post "/rels", {relation: model.toJSON()}, (savedModel) ->
+    console.log(savedModel)
 
 $ ->
   window.App = new NN.AppView
