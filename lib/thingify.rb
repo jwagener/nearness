@@ -17,6 +17,7 @@ module Thingify
     end
     if url.match /wikipedia.org/
       thing["name"] = thing["name"].gsub(" - Wikipedia, the free encyclopedia", "")
+      thing["preview_html"] = thing["preview_html"].gsub('<a href="', '<a href="/')
     end
     thing
   end
