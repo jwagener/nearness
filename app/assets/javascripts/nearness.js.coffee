@@ -24,7 +24,8 @@ window.NN ||= {
 
 NN.AppView = Backbone.View.extend
   el: $("#page")
-  events: {}
+  events:
+    "click .showBookmarklet": "showBookmarklet"
   initialize: ->
     #currentThingUrl = "http://en.wikipedia.org/wiki/Frida_Kahlo"
     currentThingUrl = window.location.pathname
@@ -39,12 +40,17 @@ NN.AppView = Backbone.View.extend
         console.log(response)
     console.log("App booted")
 
+  showBookmarklet: (e) ->
+    e.preventDefault()
+    console.log("yeah")
+
 
 Backbone.sync = (method, model) ->
   NN.post "/rels", {relation: model.toJSON()}, (savedModel) ->
     console.log(savedModel)
 
 $ ->
+  NN.AppView.prototype.el = $("#page")
   window.App = new NN.AppView
 
 testStuff = ->
