@@ -25,3 +25,7 @@ ol, ul {list-style: none;}
 hr {display: none; visibility: hidden;}
 
 :focus {outline: 0;}
+
+.reference {
+  display: none;
+}
