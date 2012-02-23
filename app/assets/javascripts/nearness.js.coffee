@@ -27,28 +27,29 @@ NN.AppView = Backbone.View.extend
   events:
     "click .showBookmarklet": "showBookmarklet"
   initialize: ->
-    #currentThingUrl = "http://en.wikipedia.org/wiki/Frida_Kahlo"
     currentThingUrl = window.location.pathname
     NN.getThing currentThingUrl, (response) ->
-      console.log(response)
-      thing = new NN.Thing response.thing
-      thingView = new NN.ThingView({model: thing})
-      $("#thing").append(thingView.render().el)
-      $("body").css("backgroundImage", "url(" + thing.get("image_url") + ")");
+      if response.things
+        templateHtml = $("#miniThingTemplate").html()
+        for thing in response.things
+          html = Mustache.to_html(templateHtml, thing)
+          $(".things").append(html)
+      else
+        thing = new NN.Thing response.thing
+        thingView = new NN.ThingView({model: thing})
+        $("#thing").append(thingView.render().el)
+        $("body").css("backgroundImage", "url(" + thing.get("image_url") + ")");
 
-      NN.getThingRels currentThingUrl, (response) ->
-        console.log(response)
-    console.log("App booted")
+        NN.getThingRels currentThingUrl, (response) ->
+          console.log(response)
 
   showBookmarklet: (e) ->
     e.preventDefault()
     if !this.bookmarkletView
       this.bookmarkletView = new NN.BookmarkletView
       this.$el.append(this.bookmarkletView.render().el)
-
     this.bookmarkletView.$el.show();
 
-    console.log("yeah")
 
 
 Backbone.sync = (method, model) ->

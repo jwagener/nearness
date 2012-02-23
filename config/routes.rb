@@ -1,5 +1,5 @@
 Nearness::Application.routes.draw do
-  root :to => "frontend#index"
+  root :to => "things_profile#index"
 
   resources :relations
   resources :things
