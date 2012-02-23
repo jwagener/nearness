@@ -16,8 +16,12 @@ class Thing < ActiveRecord::Base
     self.uri ||= url
   end
 
-  def representation
+  def mini_representation
     attributes.slice(*%w[ url name image_url ]).reject { |k,v| v.nil? }
+  end
+
+  def representation
+    attributes.slice(*%w[ url name image_url preview_html ]).reject { |k,v| v.nil? }
   end
 
   def as_json(options = nil)
