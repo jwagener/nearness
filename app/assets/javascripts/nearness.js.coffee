@@ -33,7 +33,7 @@ $ ->
       "click .showBookmarklet": "showBookmarklet"
     initialize: ->
       window.recentThings = new NN.RecentThingList()
-      
+
       currentThingUrl = window.location.pathname
       NN.getThing currentThingUrl, (response) ->
         if response.things
@@ -49,18 +49,6 @@ $ ->
           document.title = thing.get("name") + " - Nearness"
           NN.getThingRels currentThingUrl, (response) ->
             console.log(response)
-    getRecentThings: () ->
-      recentThingAttributes = (window.localStorage && window.localStorage.getItem("recentThings")) || []
-      recentThings = []
-      for attrs in recentThingAttributes
-        recentThings.push new NN.Thing(attrs)
-      recentThings
-
-    addToRecentThings: (thing) ->
-      recentThings = getRecentThings()
-      recentThings.push(thing)
-      recentThings # limit to 5
-      recentThings # serialize and store
     showBookmarklet: (e) ->
       e.preventDefault()
       if !this.bookmarkletView
