@@ -4,8 +4,9 @@
   <div class="preview">{{{preview_html}}}</div>
   <div class="relations"></div>
   
-  Source:
-  = link_to "{{url}}", "{{url}}"
+  %p.source
+    Source:
+    = link_to "{{url}}", "{{url}}"
 
 %script#relationTemplate{:type => "mustache"}
   %a{:href => "{{REPLACE_SUB_OBJ.url}}", :class => "relation", :style => "background-image: url({{REPLACE_SUB_OBJ.image_url}})"}
@@ -17,9 +18,9 @@
       %span {{name}}
 
 %script#bookmarkletTemplate{:type => "mustache"}
-  .bookmarklet{style: "position: fixed; top: 10px; right: 10px; border: 1px solid red; width: 550px; height: 457px; padding: 10px; background-color: white"}
+  %div
     %h1 "Bible" relates to:
-    %input{type: "text", style: "width: 100%; font-size: 21px; border: 1px solid blue; background: white; margin: 5px 0 10px;", value: "Search for a thing or paste a link..."}
+    %input{type: "text", style: "width: 100%; font-size: 21px; border: 1px solid blue; background: white; margin: 5px 0 10px;", value: "Search for a thing or paste a link...", id: "term"}
     Your Recent Things:
     %ul.results
     .clear{style: "clear: both"}
