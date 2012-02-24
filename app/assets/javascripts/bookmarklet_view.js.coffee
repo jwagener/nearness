@@ -2,8 +2,7 @@ NN.BookmarkletView = Backbone.View.extend
   tagName: "div"
 
   events:
-    "click results a.relation": "addRelation"
-    "click input#term": "selectAllTerm"
+    "click input#term":  "selectAllTerm"
     "keydown input#term": "changeTerm"
     "change input#term": "changeTerm"
   render: ->
@@ -20,19 +19,6 @@ NN.BookmarkletView = Backbone.View.extend
 
   clearResults: ->
     this.$el.find(".results").html()
-
-  addRelation: (e) ->
-    e.preventDefault()
-
-    $a = $(e.target)
-    $a.toggleClass('highlight')#.fadeOut("slow")
-    console.log($a)
-    rel = new NN.Relation
-       subject_url:  App.thing.get("url")
-       object_url:  this.model.get("url")
-
-    console.log(rel)
-    #rel.save
 
   changeTerm: (e) ->
     e.preventDefault() if e.type != "keydown"
