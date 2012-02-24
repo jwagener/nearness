@@ -1,6 +1,4 @@
-console.log("jo")
 $ ->
-  console.log('nnrec')
   NN.RecentThingList = Backbone.Collection.extend
     models: []
     model: NN.Thing
@@ -9,8 +7,6 @@ $ ->
     loadFromLocalStorage: ->
       rawThings = JSON.parse(localStorage.getItem("recentThings") || "[]")
       this.reset(rawThings)
-      #for rawThing in rawThings
-      #  this.add new NN.Thing(rawThing)
     saveToLocalStorage: ->
       localStorage.setItem("recentThings", JSON.stringify(this.toJSON()))
     limitTo: (i) ->
