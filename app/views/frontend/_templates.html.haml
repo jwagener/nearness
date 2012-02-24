@@ -1,8 +1,8 @@
 %script#thingTemplate{:type => "mustache"}
-  <h2>{{name}}</h2>
-  <img src="{{image_url}}" />
-  <div class="preview">{{{preview_html}}}</div>
-  <div class="relations"></div>
+  %h2 {{name}}
+  %img{src: "{{image_url}}"}
+  .preview {{{preview_html}}}
+  .relations
   
   %p.source
     Source:
