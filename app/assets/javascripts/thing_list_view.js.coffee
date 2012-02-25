@@ -6,3 +6,4 @@ $ ->
         view = new NN.MiniThingView
           model: thing
         this.$el.append(view.render().el)
+      this

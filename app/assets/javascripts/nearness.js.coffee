@@ -46,13 +46,18 @@ $ ->
           this.thing = new NN.Thing response.thing
           recentThings.addRecent(this.thing)
           thingView = new NN.ThingView({model: this.thing})
-          $("#thing").append(thingView.render().el)
+          $("#thing").html(thingView.render().el)
           $("body").css("backgroundImage", "url(" + this.thing.get("image_url") + ")");
           console.log(this.thing)
 
           document.title = this.thing.get("name") + " - Nearness"
-          NN.getThingRels currentThingUrl, (response) ->
-            console.log(response)
+          NN.getThingRels currentThingUrl, (response) =>
+            relations = new NN.RelationList(response.relations)
+            things = relations.getRelatedThings(this.thing.get("url"))
+            thingListView = new NN.ThingListView
+              el: this.$el.find("#relations")
+              collection: things
+
     showBookmarklet: (e) ->
       e.preventDefault()
       if !this.bookmarkletView
