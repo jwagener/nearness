@@ -1,5 +1,5 @@
 require 'httparty'
-require './lib/embedly'
+require File.expand_path('../embedly.rb', __FILE__)
 require 'nokogiri'
 module Thingify
   TRANSLATE =
@@ -23,18 +23,32 @@ module Thingify
   end
 
   def self.get_wikipedia(url)
-    thing = {}
     doc = get_parsed_html(url)
+
+    thing = parse_wikipedia_doc(doc)
+    thing["preview_html"] = make_links_absolute(url, thing["preview_html"])
+    thing
+  end
+
+  def self.parse_wikipedia_doc(doc)
     content = doc.css("#bodyContent .mw-content-ltr")[0]
+    thing = {}
     thing["name"] = doc.css("#firstHeading")[0].content
-    thing["image_url"] = content.css("img")[0].attr("src")
+
+    image_srcs = content.css("img").map { |n| n.attr("src") }
+    p image_srcs
+
+
+    img_src_blacklist = %w[Padlock-silver.svg Disambig_gray Ambox_content.png]
+    thing["image_url"] = image_srcs.reject { |s| img_src_blacklist.one? { |b| s.include? b } }.first
 
     thing["preview_html"] = ""
     before_toc = true
+    node_name_whitelist = %w[p ul ol]
     content.children.each do |node|
       if node.is_a? Nokogiri::XML::Element
-        if before_toc && node.name == "p"
-          thing["preview_html"] += "<p>" + node.inner_html + "</p>"
+        if before_toc && node_name_whitelist.include?(node.name)
+          thing["preview_html"] += node.send :dump_html #"<p>" + node.inner_html + "</p>"
         elsif node.name == "table" && node.attr("id") == "toc"
           before_toc = false
         end
@@ -44,7 +58,6 @@ module Thingify
     #thing
     # make urls absolute
     #URI.parse(root).merge(URI.parse(href)).to_s
-    thing["preview_html"] = make_links_absolute(url, thing["preview_html"])
     thing
   end
 
