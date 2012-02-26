@@ -16,10 +16,10 @@
   %li.miniThing
     %a{:href => "/{{url}}", :class => "relation", :style => "background-image: url({{image_url}})"}
       %span {{name}}
+      %a{href: "#", class: "add", title: "Create a relation"} +
 
 %script#bookmarkletTemplate{:type => "mustache"}
   %div
-    %h1 "Bible" relates to:
     %input{type: "text", style: "width: 100%; font-size: 21px; border: 1px solid blue; background: white; margin: 5px 0 10px;", value: "Search for a thing or paste a link...", id: "term"}
     .recent.hidden
       Your Recent Things:

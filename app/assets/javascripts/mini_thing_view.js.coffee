@@ -1,7 +1,7 @@
 NN.MiniThingView = Backbone.View.extend
   tagName: "div"
-  events:
-    "click #createRelation a.relation": "createRelation"
+  #events:
+  #  "click .add": "createRelation"
 
   initialize: ->
     this
@@ -10,11 +10,14 @@ NN.MiniThingView = Backbone.View.extend
     templateHtml = $("#miniThingTemplate").html()
     html = Mustache.to_html(templateHtml, this.model.toJSON())
     this.$el.html(html)
+    # weird workaround for broken event binding
+    this.$(".add").click (e) =>
+      this.createRelation(e)
     this
 
   createRelation: (e) ->
     e.preventDefault()
-    $a = $(e.target)
+    $a = $(e.target).closest("a.relation")
     $a.toggleClass('highlight')
     rel = new NN.Relation
        subject_url:  App.thing.get("url")
