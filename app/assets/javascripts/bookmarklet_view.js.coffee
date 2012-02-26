@@ -25,6 +25,7 @@ NN.BookmarkletView = Backbone.View.extend
     console.log(e)
 
   selectAllTerm: (e) ->
+    this.$el.find(".recent").fadeIn("fast")
     e.target.select()
 
 

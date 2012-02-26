@@ -21,10 +21,11 @@
   %div
     %h1 "Bible" relates to:
     %input{type: "text", style: "width: 100%; font-size: 21px; border: 1px solid blue; background: white; margin: 5px 0 10px;", value: "Search for a thing or paste a link...", id: "term"}
-    Your Recent Things:
-    %ul.results
-    .clear{style: "clear: both"}
-    .hidden
-      Already related Things:
+    .recent.hidden
+      Your Recent Things:
       %ul.results
-    .clear{style: "clear: both"}
+      .clear{style: "clear: both"}
+      .hidden
+        Already related Things:
+        %ul.results
+      .clear{style: "clear: both"}
