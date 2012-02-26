@@ -1,4 +1,5 @@
 NN.Thing = Backbone.Model.extend
+  idAttribute: "url"
   defaults: ->
     {
       url: "url"

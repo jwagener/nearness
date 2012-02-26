@@ -6,9 +6,11 @@ $ ->
       things = new NN.ThingList
       this.each (thing) ->
         if thing.get("object").url == url
-          things.add new NN.Thing(thing.get("subject"))
+          if !things.get(thing.get("subject").url)
+            things.add new NN.Thing(thing.get("subject"))
         else
-          things.add new NN.Thing(thing.get("object"))
+          if !things.get(thing.get("object").url)
+           things.add new NN.Thing(thing.get("object"))
       things
 
 

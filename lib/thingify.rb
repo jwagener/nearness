@@ -36,10 +36,8 @@ module Thingify
     thing["name"] = doc.css("#firstHeading")[0].content
 
     image_srcs = content.css("img").map { |n| n.attr("src") }
-    p image_srcs
 
-
-    img_src_blacklist = %w[Padlock-silver.svg Disambig_gray Ambox_content.png]
+    img_src_blacklist = %w[Padlock-silver.svg Disambig_gray Ambox_content.png Text_document_with_red_question_mark]
     thing["image_url"] = image_srcs.reject { |s| img_src_blacklist.one? { |b| s.include? b } }.first
 
     thing["preview_html"] = ""

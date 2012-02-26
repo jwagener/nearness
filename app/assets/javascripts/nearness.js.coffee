@@ -24,7 +24,7 @@ window.NN ||= {
 
 Backbone.sync = (method, model) ->
   NN.post "/rels", {relation: model.toJSON()}, (savedModel) ->
-    console.log(savedModel)
+    1
 
 $ ->
   NN.AppView = Backbone.View.extend
@@ -48,7 +48,6 @@ $ ->
           thingView = new NN.ThingView({model: this.thing})
           $("#thing").html(thingView.render().el)
           $("body").css("backgroundImage", "url(" + this.thing.get("image_url") + ")");
-          console.log(this.thing)
 
           document.title = this.thing.get("name") + " - Nearness"
           NN.getThingRels currentThingUrl, (response) =>
@@ -57,6 +56,7 @@ $ ->
             thingListView = new NN.ThingListView
               el: this.$el.find("#relations")
               collection: things
+            thingListView.render()
 
     showBookmarklet: (e) ->
       e.preventDefault()

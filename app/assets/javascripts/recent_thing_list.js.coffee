@@ -13,7 +13,7 @@ $ ->
       if this.length > i
         this.reset(this.last(i))
     addRecent: (thing) ->
+      this.remove(thing)
       this.add(thing)
-      # enforce uniqnuess
       this.limitTo(5)
       this.saveToLocalStorage()
