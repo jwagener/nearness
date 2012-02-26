@@ -53,10 +53,10 @@ $ ->
           NN.getThingRels currentThingUrl, (response) =>
             relations = new NN.RelationList(response.relations)
             things = relations.getRelatedThings(this.thing.get("url"))
-            thingListView = new NN.ThingListView
+            App.thingListView = new NN.ThingListView
               el: this.$el.find("#relations")
               collection: things
-            thingListView.render()
+            App.thingListView.render()
 
     showBookmarklet: (e) ->
       e.preventDefault()

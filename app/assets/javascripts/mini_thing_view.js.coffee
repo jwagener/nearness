@@ -23,3 +23,4 @@ NN.MiniThingView = Backbone.View.extend
        subject_url:  App.thing.get("url")
        object_url:  this.model.get("url")
     rel.save()
+    App.thingListView.collection.add(this.model)
