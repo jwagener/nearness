@@ -20,3 +20,7 @@ gem 'jquery-rails'
 gem 'httparty'
 
 gem 'nokogiri'
+
+group :production do
+  gem "pg"
+end
