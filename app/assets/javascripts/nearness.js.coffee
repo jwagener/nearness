@@ -36,7 +36,7 @@ $ ->
       window.recentThings = new NN.RecentThingList()
       this.bookmarkletView = new NN.BookmarkletView
       this.$el.find("#createRelation").append(this.bookmarkletView.render().el)
-      currentThingUrl = window.location.pathname
+      currentThingUrl = window.location.pathname + window.location.search
       NN.getThing currentThingUrl, (response) =>
         if response.things
           for thing in response.things
