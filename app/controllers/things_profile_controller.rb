@@ -2,7 +2,12 @@ class ThingsProfileController < ApplicationController
   before_filter :set_format
 
   def index
-    @things = Thing.all
+    if params[:t]
+      @things = Thing.find(:all, :conditions => ["name like ?", params[:t]+ "%"], :limit => 5)
+    else
+      @things = Thing.all
+    end
+
     render json: Collection.new("things", @things)
   end
 

@@ -3,18 +3,18 @@ NN.BookmarkletView = Backbone.View.extend
 
   events:
     "click input#term":  "selectAllTerm"
-    "keydown input#term": "changeTerm"
+    #"keydown input#term": "changeTerm"
     "change input#term": "changeTerm"
+
   render: ->
     templateHtml = $("#bookmarkletTemplate").html()
     html = Mustache.to_html(templateHtml, {})
     this.$el.html(html)
 
-    thingListView = new NN.ThingListView
+    this.thingListView = new NN.ThingListView
       el: this.$el.find(".results")
       collection: recentThings
-    thingListView.render()
-
+    this.thingListView.render()
     this
 
   clearResults: ->
@@ -22,7 +22,12 @@ NN.BookmarkletView = Backbone.View.extend
 
   changeTerm: (e) ->
     e.preventDefault() if e.type != "keydown"
-    console.log(e)
+    term = $(e.target).val()
+    bookmarkletView = this
+    NN.searchThing term, (response) ->
+      thingList = new NN.ThingList(response.things)
+      bookmarkletView.thingListView.collection = thingList
+      bookmarkletView.thingListView.render()
 
   selectAllTerm: (e) ->
     this.$el.find(".recent").fadeIn("fast")

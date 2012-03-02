@@ -1,7 +1,12 @@
 window.NN ||= {
-  get: (path, callback) -> 
+  get: (path, params, callback) ->
+    if !callback?
+      callback = params
+      params = {}
+    url = new URI(path)
+    url.query = params
     $.ajax
-      url: path
+      url: url.toString()
       dataType: "json"
       success: (data) ->
         callback(data)
@@ -20,6 +25,11 @@ window.NN ||= {
 
   getThingRels: (url, callback) ->
     this.get "/" + encodeURIComponent(url) + "/rels", callback
+
+  searchThingCache: {}
+  searchThing: (t, callback) ->
+    NN.get "/things.json", {t: t}, (response) =>
+      callback(response)
 }
 
 Backbone.sync = (method, model) ->
