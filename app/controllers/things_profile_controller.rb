@@ -3,30 +3,18 @@ class ThingsProfileController < ApplicationController
 
   def index
     @things = Thing.all
-
-     respond_to do |format|
-       format.html { render template: "frontend/index" }
-       format.json { render json: Collection.new("things", @things) }
-     end
+    render json: Collection.new("things", @things)
   end
 
-  def show
-    respond_to do |format|
-      format.html { render template: "frontend/index" }
-      format.json do
-        @thing = load_or_create_thing!
-        render json: @thing
-      end
-    end
+  def thing
+    @thing = load_or_create_thing!
+    render json: @thing
   end
 
   def relations
-    @relations = load_thing!.relations(params[:predicate])
-
-    respond_to do |format|
-      format.html
-      format.json { render json: Collection.new("relations", @relations) }
-    end
+    predicate  = params[:predicate] == "rels" ? nil : params[:predicate]
+    @relations = load_thing!.relations(predicate)
+    render json: Collection.new("relations", @relations)
   end
 
   def create_relation
@@ -35,7 +23,8 @@ class ThingsProfileController < ApplicationController
     render json: relation.as_json
   end
 
-  private
+private
+
   def load_thing!
     Thing.find_by_url!(thing_url)
   end
@@ -45,7 +34,14 @@ class ThingsProfileController < ApplicationController
   end
 
   def thing_url
-    request.env['REQUEST_PATH'].match(%r{(https?://.*)})[1]
+    request_uri = request.env["REQUEST_URI"] || ""
+
+    url =if params[:action] == "relations"
+      request_uri.split("/")[3..-2].join("/")
+    else
+      request_uri.split("/")[3..-1].join("/")
+    end
+    URI.decode(url)
   end
 
   def set_format

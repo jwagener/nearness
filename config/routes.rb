@@ -1,13 +1,13 @@
 Nearness::Application.routes.draw do
-  root :to => "things_profile#index"
+  # internal things api
+  match "things(.:format)"    => "things_profile#index",      :as => :thing_profile 
 
-  resources :relations
-  resources :things
- 
-  match "(.:our_format)"                  => "things_profile#index",      :as => :thing_profile
-  post  "rels"                                 => "things_profile#create_relation", :as => :create_relation
-  match "rels(;:predicate)(.:our_format)/*url" => "things_profile#relations", :as => :thing_profile_relations  
-  match "(.:our_format/)*url"                  => "things_profile#show",      :as => :thing_profile
-  match "things(.:our_format/)*url"            => "things_profile#show",      :as => :thing_profile 
+  # official api
+  match "/http%3A%2F%2F*url_part/*predicate" => "things_profile#relations",       :as => :thing_profile
+  match "/http%3A%2F%2F*url_part"            => "things_profile#thing",           :as => :thing_profile
+  post "/"                                   => "things_profile#create_relation", :as => :thing_profile
+
+  match "/*url"               => "frontend#index"
+  root :to => "frontend#index"
 end
 

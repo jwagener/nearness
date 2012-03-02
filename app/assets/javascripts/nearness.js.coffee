@@ -16,14 +16,14 @@ window.NN ||= {
         callback(data)
 
   getThing: (url, callback) ->
-    this.get "/.json" + url, callback
+    this.get "/" + encodeURIComponent(url), callback
 
   getThingRels: (url, callback) ->
-    this.get "/rels.json" + url, callback
+    this.get "/" + encodeURIComponent(url) + "/rels", callback
 }
 
 Backbone.sync = (method, model) ->
-  NN.post "/rels", {relation: model.toJSON()}, (savedModel) ->
+  NN.post "/", {relation: model.toJSON()}, (savedModel) ->
     1
 
 $ ->
@@ -36,13 +36,10 @@ $ ->
       window.recentThings = new NN.RecentThingList()
       this.bookmarkletView = new NN.BookmarkletView
       this.$el.find("#createRelation").append(this.bookmarkletView.render().el)
-      currentThingUrl = window.location.pathname + window.location.search
-      NN.getThing currentThingUrl, (response) =>
-        if response.things
-          for thing in response.things
-            thingView = new NN.MiniThingView({model: new NN.Thing(thing)})
-            $(".things").append(thingView.render().el)
-        else
+      l = window.location
+      currentThingUrl = decodeURIComponent(l.toString().replace(l.protocol + "//" + l.host + "/", "")) #pathname + window.location.search)
+      if currentThingUrl
+        NN.getThing currentThingUrl, (response) =>
           this.thing = new NN.Thing response.thing
           recentThings.addRecent(this.thing)
           thingView = new NN.ThingView({model: this.thing})
@@ -57,6 +54,12 @@ $ ->
               el: this.$el.find("#relations")
               collection: things
             App.thingListView.render()
+      else
+        NN.get "/things.json", (response) =>
+          if response.things
+            for thing in response.things
+              thingView = new NN.MiniThingView({model: new NN.Thing(thing)})
+              $(".things").append(thingView.render().el)
 
     showBookmarklet: (e) ->
       e.preventDefault()
