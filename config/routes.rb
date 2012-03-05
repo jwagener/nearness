@@ -1,4 +1,5 @@
 Nearness::Application.routes.draw do
+  match "/bookmarklet" => "frontend#bookmarklet"
   # internal things api
   match "things(.:format)"    => "things_profile#index",      :as => :thing_profile 
 

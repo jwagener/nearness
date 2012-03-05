@@ -44,27 +44,38 @@ $ ->
       "click .showBookmarklet": "showBookmarklet"
     initialize: ->
       window.recentThings = new NN.RecentThingList()
-      this.bookmarkletView = new NN.BookmarkletView
-      this.$el.find("#createRelation").append(this.bookmarkletView.render().el)
       l = window.location
       currentThingUrl = decodeURIComponent(l.toString().replace(l.protocol + "//" + l.host + "/", "")) #pathname + window.location.search)
-      if currentThingUrl
-        NN.getThing currentThingUrl, (response) =>
-          this.thing = new NN.Thing response.thing
-          recentThings.addRecent(this.thing)
-          thingView = new NN.ThingView({model: this.thing})
-          $("#thing").html(thingView.render().el)
-          $("body").css("backgroundImage", "url(" + this.thing.get("image_url") + ")");
+      if $("body").hasClass("bookmarklet")
 
-          document.title = this.thing.get("name") + " - Nearness"
-          NN.getThingRels currentThingUrl, (response) =>
-            relations = new NN.RelationList(response.relations)
-            things = relations.getRelatedThings(this.thing.get("url"))
-            App.thingListView = new NN.ThingListView
-              el: this.$el.find("#relations")
-              collection: things
-            App.thingListView.render()
+        this.bookmarkletView = new NN.BookmarkletView
+        this.$el.append(this.bookmarkletView.render().el)
       else
+        this.bookmarkletView = new NN.BookmarkletView
+        this.$el.find("#createRelation").append(this.bookmarkletView.render().el)
+
+        if currentThingUrl
+          this.renderThingPage()
+        else
+          this.renderThingsPage()
+
+    renderThingPage: (currentThingUrl) ->
+      NN.getThing currentThingUrl, (response) =>
+        this.thing = new NN.Thing response.thing
+        recentThings.addRecent(this.thing)
+        thingView = new NN.ThingView({model: this.thing})
+        $("#thing").html(thingView.render().el)
+        $("body").css("backgroundImage", "url(" + this.thing.get("image_url") + ")");
+
+        document.title = this.thing.get("name") + " - Nearness"
+        NN.getThingRels currentThingUrl, (response) =>
+          relations = new NN.RelationList(response.relations)
+          things = relations.getRelatedThings(this.thing.get("url"))
+          App.thingListView = new NN.ThingListView
+            el: this.$el.find("#relations")
+            collection: things
+          App.thingListView.render()
+      renderThingsPage: ->
         NN.get "/things.json", (response) =>
           if response.things
             for thing in response.things
