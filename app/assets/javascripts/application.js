@@ -12,7 +12,11 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require underscore
-//= require backbone
+//= require lib/underscore
+//= require lib/mustache
+//= require lib/uri
+//= require lib/backbone
 //= require nearness
-//= require_tree .
+//= require_tree ./models
+//= require_tree ./views
+//= require x_init

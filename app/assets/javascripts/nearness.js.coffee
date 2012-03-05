@@ -75,12 +75,12 @@ $ ->
             el: this.$el.find("#relations")
             collection: things
           App.thingListView.render()
-      renderThingsPage: ->
-        NN.get "/things.json", (response) =>
-          if response.things
-            for thing in response.things
-              thingView = new NN.MiniThingView({model: new NN.Thing(thing)})
-              $(".things").append(thingView.render().el)
+    renderThingsPage: ->
+      NN.get "/things.json", (response) =>
+        if response.things
+          for thing in response.things
+            thingView = new NN.MiniThingView({model: new NN.Thing(thing)})
+            $(".things").append(thingView.render().el)
 
     showBookmarklet: (e) ->
       e.preventDefault()
