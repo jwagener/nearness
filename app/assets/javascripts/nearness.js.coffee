@@ -46,18 +46,20 @@ $ ->
       window.recentThings = new NN.RecentThingList()
       l = window.location
       currentThingUrl = decodeURIComponent(l.toString().replace(l.protocol + "//" + l.host + "/", "")) #pathname + window.location.search)
-      if $("body").hasClass("bookmarklet")
 
-        this.bookmarkletView = new NN.BookmarkletView
+      this.bookmarkletView = new NN.BookmarkletView
+      if $("body").hasClass("bookmarklet")
+        $("input").select()
         this.$el.append(this.bookmarkletView.render().el)
+        uri = new URI(window.location, decodeQuery: true)
+        currentThingUrl = uri.query.subject_url
       else
-        this.bookmarkletView = new NN.BookmarkletView
         this.$el.find("#createRelation").append(this.bookmarkletView.render().el)
 
-        if currentThingUrl
-          this.renderThingPage()
-        else
-          this.renderThingsPage()
+      if currentThingUrl
+        this.renderThingPage(currentThingUrl)
+      else
+        this.renderThingsPage()
 
     renderThingPage: (currentThingUrl) ->
       NN.getThing currentThingUrl, (response) =>
@@ -81,6 +83,9 @@ $ ->
           for thing in response.things
             thingView = new NN.MiniThingView({model: new NN.Thing(thing)})
             $(".things").append(thingView.render().el)
+
+    log: (message) ->
+      console.log(arguments)
 
     showBookmarklet: (e) ->
       e.preventDefault()

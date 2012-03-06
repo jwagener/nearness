@@ -4,7 +4,7 @@ NN.BookmarkletView = Backbone.View.extend
   events:
     "click input#term":  "selectAllTerm"
     #"keydown input#term": "changeTerm"
-    "change input#term": "changeTerm"
+    "input input#term": "changeTerm"
 
   render: ->
     templateHtml = $("#bookmarkletTemplate").html()
