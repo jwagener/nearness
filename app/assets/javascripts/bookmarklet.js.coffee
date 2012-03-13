@@ -12,5 +12,5 @@ for key of params
 
 e = document.createElement("iframe")
 e.src = url
-e.setAttribute("style", "border: 1px solid red; position: fixed; top: 10px; right: 10px; width: 640px; height: 240px;")
+e.setAttribute("style", "border: 1px solid red; position: fixed; top: 10px; right: 10px; width: 640px; height: 240px; z-index: 9999;")
 document.body.appendChild(e)
