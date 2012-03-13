@@ -23,6 +23,8 @@ class ThingsProfileController < ApplicationController
 
     if format == "atom"
       render template: "relations/index.atom"
+    elsif format == "html"
+      render template: "relations/index.html", :layout => false
     else
       render json: Collection.new("relations", @relations)
     end

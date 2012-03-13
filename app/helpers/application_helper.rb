@@ -1,4 +1,13 @@
 module ApplicationHelper
+  def get_related_things_from_relations(url, relations)
+    @relations.map do |relation|
+      if relation.subject_url == url
+        relation.object
+      else
+        relation.subject
+      end
+    end
+  end
 
   def link_to_bookmarklet(text, preset={})
     js  = %{javascript:}
