@@ -11,4 +11,8 @@ module ApplicationHelper
     js.gsub!('"', "'")
     link_to text, js.html_safe
   end
+
+  def atom_datetime(d)
+    d.to_s(:rfc3339).gsub(" ", "T").gsub("TUTC", "Z")
+  end
 end

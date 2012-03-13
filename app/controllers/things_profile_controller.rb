@@ -17,9 +17,15 @@ class ThingsProfileController < ApplicationController
   end
 
   def relations
-    predicate  = params[:predicate] == "rels" ? nil : params[:predicate]
+    predicate, format = params[:predicate_format].split(".")
+    predicate  = predicate == "rels" ? nil : predicate
     @relations = load_thing!.relations(predicate)
-    render json: Collection.new("relations", @relations)
+
+    if format == "atom"
+      render template: "relations/index.atom"
+    else
+      render json: Collection.new("relations", @relations)
+    end
   end
 
   def create_relation
