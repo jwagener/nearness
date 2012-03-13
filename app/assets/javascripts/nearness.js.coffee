@@ -54,9 +54,9 @@ $ ->
           rel.save()
           this.$el.html("New Relation created: " + [params.subject_url, params.predicate, params.object_url].join(" "))
         else
-          $("input").select()
           this.$el.append(this.bookmarkletView.render().el)
-          currentThingUrl = params.subject_url
+          $("input").select()
+          currentThingUrl = params.object_url
       else
         this.$el.find("#createRelation").append(this.bookmarkletView.render().el)
 
