@@ -1,4 +1,4 @@
-url = "http://" + window.location.host + "/bookmarklet?"
+url = "http://nearness.org/bookmarklet?"
 
 params = {}
 if NN_BOOKMARKLET? && NN_BOOKMARKLET.preset?
