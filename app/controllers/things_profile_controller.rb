@@ -18,8 +18,8 @@ class ThingsProfileController < ApplicationController
 
   def relations
     predicate, format = params[:predicate_format].split(".")
-    predicate  = predicate == "rels" ? nil : predicate
-    @relations = load_thing!.relations(predicate)
+    @predicate  = predicate == "rels" ? nil : predicate
+    @relations = load_thing!.relations(@predicate)
 
     if format == "atom"
       render template: "relations/index.atom"
@@ -37,7 +37,7 @@ class ThingsProfileController < ApplicationController
 private
 
   def load_thing!
-    Thing.find_by_url!(thing_url)
+    @thing = Thing.find_by_url!(thing_url)
   end
 
   def load_or_create_thing!

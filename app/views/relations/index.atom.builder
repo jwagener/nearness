@@ -1,7 +1,7 @@
 xml.instruct! :xml, version: "1.0" 
 xml.feed xmlns: "http://www.w3.org/2005/Atom" do
-  xml.title "Nearness"
-  xml.subtitle "Recent things related to Boris Becker"
+  xml.title "#{@thing.name}s #{@predicate || "relations"}"
+  xml.subtitle "Recent things related to #{@thing.name}"
   xml.updated atom_datetime(@relations.first.created_at)
   xml.link href: url_for, rel: "self"
   xml.link href: root_url[0..-2] + url_for
