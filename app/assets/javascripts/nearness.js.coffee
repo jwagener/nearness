@@ -40,8 +40,7 @@ $ ->
   NN.AppView = Backbone.View.extend
     thing: null
     el: $("#page")
-    events:
-      "click .showBookmarklet": "showBookmarklet"
+    events: {}
     initialize: ->
       window.recentThings = new NN.RecentThingList()
       l = window.location
@@ -49,10 +48,15 @@ $ ->
 
       this.bookmarkletView = new NN.BookmarkletView
       if $("body").hasClass("bookmarklet")
-        $("input").select()
-        this.$el.append(this.bookmarkletView.render().el)
-        uri = new URI(window.location, decodeQuery: true)
-        currentThingUrl = uri.query.subject_url
+        params = new URI(window.location, decodeQuery: true).query
+        if params.subject_url? && params.predicate? && params.object_url?
+          rel = new NN.Relation params
+          rel.save()
+          this.$el.html("New Relation created: " + [params.subject_url, params.predicate, params.object_url].join(" "))
+        else
+          $("input").select()
+          this.$el.append(this.bookmarkletView.render().el)
+          currentThingUrl = params.subject_url
       else
         this.$el.find("#createRelation").append(this.bookmarkletView.render().el)
 
@@ -87,12 +91,6 @@ $ ->
     log: (message) ->
       console.log(arguments)
 
-    showBookmarklet: (e) ->
-      e.preventDefault()
-      if !this.bookmarkletView
-        this.bookmarkletView = new NN.BookmarkletView
-        this.$el.append(this.bookmarkletView.render().el)
-      this.bookmarkletView.$el.show();
 
 
 

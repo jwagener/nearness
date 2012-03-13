@@ -3,6 +3,9 @@
   %img{src: "{{image_url}}"}
   .preview {{{preview_html}}}
   .relations
+  = link_to "Atom Feed", "{{local_url}}/rels.atom", class: "feed"
+  = link_to_bookmarklet "Like Bookmarklet", subject_url: "{{url}}", predicate: "likes", object_url: nil
+
   
   %p.source
     Source:

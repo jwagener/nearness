@@ -20,8 +20,14 @@ class Thing < ActiveRecord::Base
     attributes.slice(*%w[ url name image_url ]).reject { |k,v| v.nil? }
   end
 
+  def local_url
+    "/#{CGI.escape(url)}"
+  end
+
   def representation
-    attributes.slice(*%w[ url name image_url preview_html ]).reject { |k,v| v.nil? }
+    r = attributes.slice(*%w[ url name image_url preview_html ]).reject { |k,v| v.nil? }
+    r[:local_url] = local_url
+    r
   end
 
   def as_json(options = nil)

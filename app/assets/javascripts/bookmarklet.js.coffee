@@ -1,10 +1,10 @@
-url = "http://localhost:3000/bookmarklet?"
+url = "http://" + window.location.host + "/bookmarklet?"
 
 params = {}
 if NN_BOOKMARKLET? && NN_BOOKMARKLET.preset?
   params = NN_BOOKMARKLET.preset
 
-params.subject_url = window.location.toString()
+params.object_url = window.location.toString()
 for key of params
   value = params[key]
   if value != null
