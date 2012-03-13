@@ -1,4 +1,8 @@
 class Relation < ActiveRecord::Base
+  validates_each :object_url, :subject_url do |record, attr, value|
+    Thing.find_or_create_by_url(value)
+  end
+
   scope :with_predicate, ->(predicate) do
     where("predicate = ?", predicate) if predicate.present?
   end
