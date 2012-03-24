@@ -11,6 +11,11 @@ class Thing < ActiveRecord::Base
     self.attributes = Thingify.get(url)
   end
 
+  def thingify!
+    thingify
+    save!
+  end
+
   def urify
     self.uri ||= url
   end
