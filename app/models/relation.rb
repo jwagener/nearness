@@ -7,6 +7,11 @@ class Relation < ActiveRecord::Base
     where("predicate = ?", predicate) if predicate.present?
   end
 
+  scope :with_url, ->(url) do
+    where("subject_url = ? OR object_url = ?", url, url) if url.present?
+  end
+
+
   def subject
     Thing.find_by_url(subject_url)
   end

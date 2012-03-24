@@ -4,8 +4,7 @@ class Thing < ActiveRecord::Base
 
 
   def relations(predicate = nil)
-    Relation.with_predicate(predicate).find_all_by_subject_url(url) +
-    Relation.with_predicate(predicate).find_all_by_object_url(url)
+    Relation.with_predicate(predicate).with_url(url).order("id DESC")
   end
 
   def thingify
