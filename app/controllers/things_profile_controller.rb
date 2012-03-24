@@ -2,13 +2,23 @@ class ThingsProfileController < ApplicationController
   before_filter :set_format
 
   def index
+    limit = 25
+    offset = params[:offset].to_i || 0
+
     if params[:t]
       @things = Thing.find(:all, :conditions => ["name like ?", params[:t]+ "%"], :limit => 5)
     else
-      @things = Thing.all
+      @things = Thing.order("id DESC").limit(limit).offset(offset).all
     end
 
-    render json: Collection.new("things", @things)
+    next_url = if @things.length >= limit
+      url_for(:offset => offset + limit, :format => "json")
+    end
+
+    render json: {
+      next_url: next_url,
+      things: @things.map(&:representation)
+    }
   end
 
   def thing

@@ -3,8 +3,8 @@ window.NN ||= {
     if !callback?
       callback = params
       params = {}
-    url = new URI(path)
-    url.query = params
+    url = new URI(path, {decodeQuery: true})
+    url.query = _.extend(url.query, params)
     $.ajax
       url: url.toString()
       dataType: "json"
@@ -82,11 +82,14 @@ $ ->
             collection: things
           App.thingListView.render()
     renderThingsPage: ->
-      NN.get "/things.json", (response) =>
-        if response.things
-          for thing in response.things
-            thingView = new NN.MiniThingView({model: new NN.Thing(thing)})
-            $(".things").append(thingView.render().el)
+      loadThingsFromUrl = (url) ->
+        NN.get url, (response) =>
+          loadThingsFromUrl(response.next_url) if response.next_url?
+          if response.things
+            for thing in response.things
+              thingView = new NN.MiniThingView({model: new NN.Thing(thing)})
+              $(".things").append(thingView.render().el)
+      loadThingsFromUrl("/things.json")
 
     log: (message) ->
       console.log(arguments)
