@@ -2,10 +2,30 @@
   #thing
     %h2 Nearness.org
     .preview
-      %p Things and Relations.
-      %p Subjects, Objects and Predicates.
-      The bookmarklet is here:
-      = link_to_bookmarklet "Relate!", subject_url: nil, predicate: nil, object_url: nil
+
+      %p
+        Nearness let's you relate things on the web to each other.
+        It follows the basic grammatic of subjects, objects and predicates.
+
+      %p
+        The generl bookmarklet is here:
+        = link_to_bookmarklet "Relate!", subject_url: nil, predicate: nil, object_url: nil
+
+      %p.hidden
+        Or build your own bookmarklet (for example to create a like or read later bookmarklet):
+        %form.bookmarklet-form
+          %label{for: "subject-url"} Subject URL:
+          %input{type: "text", id: "subject-url", placeholder: "Subject URL"}
+
+          %label{for: "predicate"} Predicate:
+          %input{type: "text", id: "predicate", placeholder: "Predicate"}
+
+          %label{for: "label"} Label:
+          %input{type: "text", id: "label", placeholder: "Bookmarklet Label"}
+
+          %input{type: "submit", value: "Build!"}
+          = link_to_bookmarklet "Relate!", subject_url: nil, predicate: nil, object_url: nil
+
   #context
     #createRelation
     #relations.things
